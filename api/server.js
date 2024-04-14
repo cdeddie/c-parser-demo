@@ -1,10 +1,19 @@
-// Made for linux. Does not work on windows
+// Made for linux, no windows
 
 const express = require('express');
+const cors = require('cors');
 const { exec } = require('child_process');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
 const app = express();
 const port = 3001;
+
+app.use(cors({
+  origin: '*',
+  credentials: true
+}));
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
@@ -12,16 +21,36 @@ app.get('/', (req, res) => {
 
 app.get('/parse', (req, res) => {
   const input_code = req.query.code;
-  
-  const command = `echo ${input_code} | ./parser.exe 1`;
+  const tempFilePath = path.join(os.tmpdir(), 'code.c');
 
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Exec error: ${error}`);
-      return res.status(500).send(`Error executing parser: ${error}`);
+  fs.writeFile(tempFilePath, input_code, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send(err);
     }
 
-    res.send(stdout);
+    const command = `./parser 1 < ${tempFilePath}`;
+    exec(command, (error, stdout, stderr) => {
+      fs.readFile(tempFilePath, 'utf8', (readErr) => {
+        if (readErr) {
+          console.error(readErr);
+        }
+
+        fs.unlink(tempFilePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error(unlinkErr);
+          }
+        });
+      });
+
+      if (error) {
+        console.error(`Exec error: ${error}`);
+        return res.status(500).send(`${error}`);
+      }
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(stdout);
+    });
   });
 });
 

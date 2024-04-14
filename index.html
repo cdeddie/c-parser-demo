@@ -1,13 +1,25 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/terminal.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c-parser-demo</title>
+    <title>Monaco editor</title>
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/editor/editor.main.min.css">
+    <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
+    <link rel="stylesheet" href="./public/main.css">
   </head>
+
+
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="monaco-editor"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
+    
+    <div class="button-container">
+      <button id="parse-button">Parse Code</button>
+      <button id="random-button">I'm Feeling Lucky</button>
+    </div>
+
+    <div id="ast" class="tree"></div>
+    
+
+    <script src="./src/main.js"></script>
   </body>
 </html>
