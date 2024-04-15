@@ -1,14 +1,19 @@
-var editor;
+let editor;
 
 require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' }});
 require(["vs/editor/editor.main"], () => {
   editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-    value: `int main() { return 0; }`,
+    value: 
+`int main() 
+{
+    return 0; 
+}`,
     language: 'cpp',
     theme: 'vs-light',
   });
 });
 
+// Fetch HTML function
 const fetchHTML = async() => {
   try {
     const code = editor.getValue();
@@ -31,3 +36,17 @@ const fetchHTML = async() => {
 };
 
 document.getElementById('parse-button').addEventListener('click', fetchHTML);
+
+// Dark mode toggle
+const darkModeToggle = document.getElementById('darkmode-toggle');
+const body = document.getElementById('body');
+
+darkModeToggle.addEventListener('change', () => {
+  if (darkModeToggle.checked) {
+    body.classList.add('dark');
+    monaco.editor.setTheme('vs-dark');
+  } else {
+    body.classList.remove('dark');
+    monaco.editor.setTheme('vs-light');
+  }
+});
