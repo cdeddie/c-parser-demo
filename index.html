@@ -72,13 +72,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
     <div id="monaco-editor"></div>
+
     
     <div class="button-container">
       <button id="parse-button">Parse Code</button>
       <button id="random-button">I'm Feeling Lucky</button>
     </div>
 
-    <div id="ast" class="tree"></div>
+    <div class="ast-container">
+      <div class="preprocessor-column">
+        <h3>Includes:</h3>
+        <ul id="includes"></ul>
+        <h3>Macros:</h3>
+        <ul id="macros"></ul>
+      </div>
+      <div id="ast" class="tree"></div>
+    </div>
     
 
     <script src="./src/main.js"></script>
