@@ -11,7 +11,7 @@ const app = express();
 const port = 3001;
 
 app.use(cors({
-  origin: '*',
+  origin: 'http://3.27.222.147:81',
   credentials: true
 }));
 
